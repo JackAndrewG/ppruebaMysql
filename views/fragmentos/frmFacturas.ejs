@@ -19,16 +19,11 @@ function cargarClasificacion() {
         }
     });
 }
-var htm='';
-var fI= $('#fechaI').val();
-var fF= $('#fechaF').val();
 
     $().ready(function () {
         cargarTabla();
         cargarClasificacion();
 
-        htm +='<a href="#" class="button btn btn-primary" onclick="buscar('+fI,fF+')">Buscar</a>';
-        $('#busqueda').html(htm);
     });
 
     function cargarTabla() {
