@@ -1,14 +1,14 @@
 {
     "development":{
-        "username": "JackAndrew",
-        "password": "jack",
+        "username": "root",
+        "password": "Lalolola.16",
         "database": "facturas",
         "host": "localhost",
         "dialect": "mysql"
     },
     "staging":{
-        "username": "JackAndrew",
-        "password": "jack",
+        "username": "root",
+        "password": "Lalolola.16",
         "database": "facturas",
         "host": "localhost",
         "dialect": "mysql"
