@@ -1,6 +1,4 @@
 module.exports = function (sequelize, Sequelize) {
-    var persona = require('../models/persona');
-    var Persona = new persona(sequelize, Sequelize);
     var Factura = sequelize.define('factura', {
         id: {
             autoIncrement: true,
@@ -30,12 +28,6 @@ module.exports = function (sequelize, Sequelize) {
     }, {freezeTableName: true,
         createdAt: 'fecha_registro',
         updateAt: 'fecha_modificacion'
-    });
-
-
-    Factura.belongsTo(Persona, {
-        foreignKey: 'id_persona',
-        constraints: false
     });
 
 

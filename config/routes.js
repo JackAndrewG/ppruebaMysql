@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var persona=require('../controladores/controladorPersona');
-var controladorPersona=new persona();
 var factura=require('../controladores/controladorFactura');
 var controladorfactura=new factura();
 
@@ -9,13 +7,9 @@ var servicios=require('../controladores/controladorservicios');
 var controladorservicios=new servicios();
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('facturas');
+    res.render('plantilla', { titulo: 'Ropa', fragmento: 'fragmentos/frmInicio'});
 });
 
-router.get('/registro', function(req, res, next) {
-    res.render('plantilla', { titulo: 'Registro de Partes', fragmento: 'fragmentos/frmRegistro'});
-});
-router.post('/registrar', controladorPersona.guardar);
 
 //lista todas las ventas
 router.get('/facturas', controladorfactura.listar);
@@ -26,7 +20,7 @@ router.post('/editarVenta', controladorfactura.editar);
 
 
 //lista todas las personas
-router.get('/personas', controladorPersona.listar);
+
 
 router.get('/buscar', controladorfactura.listar);
 
