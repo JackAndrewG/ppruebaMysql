@@ -40,8 +40,8 @@ class controladorFactura {
   guardar(req, res) {
       Factura.create({
       external_id: uuidv4(),
+      nombre: req.body.persona,
       clasificacion: req.body.otros,
-      cantidad: req.body.cantidad,
       totalFactura: req.body.total,
       fecha_registro: req.body.fecha
     }).then(function (factura, created) {

@@ -14,9 +14,6 @@ module.exports = function (sequelize, Sequelize) {
         clasificacion: {
             type: Sequelize.STRING(100)
         },
-        cantidad: {
-            type: Sequelize.STRING(100)
-        },
         totalFactura: {
             type: Sequelize.DOUBLE(10,2)
         },
