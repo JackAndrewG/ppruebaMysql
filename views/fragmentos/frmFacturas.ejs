@@ -1,0 +1,228 @@
+<script>
+function cargarClasificacion() {
+    var url = "http://localhost:3000/facturas/recursos/clasificacion";
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+            console.log(data.clasificacion);
+            var html = "<option value=''>Seleccione un tipo</option>";
+            $.each(data.clasificacion, function (i, item) {
+                html += '<option value = "' + item + '">' + item + '</option>';
+            });
+            $("#clasificacion").html(html);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+}
+var htm='';
+var fI= $('#fechaI').val();
+var fF= $('#fechaF').val();
+
+    $().ready(function () {
+        cargarTabla();
+        cargarClasificacion();
+
+        htm +='<a href="#" class="button btn btn-primary" onclick="buscar('+fI,fF+')">Buscar</a>';
+        $('#busqueda').html(htm);
+    });
+
+    function cargarTabla() {
+            var url = "http://localhost:3000/facturas/recursos/listarTodos";       ///test/sw/listaProdLot
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        html += '<tr>';
+                        html += '<td>'+(i+1)+'</td>';
+                        html += '<td>'+item.fecha_registro+'</td>';
+                        html += '<td>'+item.clasificacion+'</td>';
+                        html += '<td>'+item.cantidad+'</td>';
+                        html += '<td>'+item.totalFactura+'</td>';
+                        html += '<td><button  type="button" id="editar'+i+'" class="btn btn-primary">Editar</button></td>';
+                        html += '</tr>';
+                        html += "<script>$('#editar"+i+"').click(function () {$('#external').val("+item.external_id+");$('#clasificacion').val("+item.clasificacion+");$('#cantidad').val("+item.cantidad+");$('#total').val("+item.totalFactura+");});</scrip"+"t>";
+
+                    });
+                    $("#tabla tbody").html(html);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+            // onclick="return verTotales('+item.id+')"
+    }
+
+    function buscar() {
+            var fechaI= req.query.fechaI;
+            var fechaF= req.query.fechaF;
+            var url = "http://localhost:3000/facturas/recursos/listarTodos";       ///test/sw/listaProdLot
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        if (item.fecha_registro >= fechaI && item.fecha_registro <= fechaF) {
+                        html += '<tr>';
+                        html += '<td>'+(i+1)+'</td>';
+                        html += '<td>'+item.fecha_registro+'</td>';
+                        html += '<td>'+item.clasificacion+'</td>';
+                        html += '<td>'+item.cantidad+'</td>';
+                        html += '<td>'+item.totalFactura+'</td>';
+                        html += '<td><button  type="button" id="editar'+i+'" class="btn btn-primary">Editar</button></td>';
+                        html += '</tr>';
+                        html += "<script>$('#editar'"+i+").click(function () {$('#external').val("+item.external_id+");$('#clasificacion').val("+item.clasificacion+");$('#cantidad').val("+item.cantidad+");$('#total').val("+item.totalFactura+");});</scrip"+"t>";
+                        }
+                    });
+                    $("#tabla tbody").html(html);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+            // onclick="return verTotales('+item.id+')"
+    }
+
+
+    function verTotales(id) {
+        var url = "http://localhost:3000/recursos/totales/"+id;       ///test/sw/listaProdLot
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    if(data.cantidad != null) {
+                        $("#cantP").html(data.cantidad);
+                    } else {
+                        $("#cantP").html("0");
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+    }
+
+</script>
+
+<meta charset="utf-8">
+<title>
+  <%= titulo %>
+</title>
+<!--<script src="javascripts/paises.js"></script> -->
+  <div class="gallery"><h1>FACTURAS</h1></div>
+<div class="container">
+  <div class="row">
+    <!-- FORM -->
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <form id="factura" method="POST">
+            <input id="external" name="external" value="0" type="hidden">
+            <div class="form-group">
+              <input type="text" id="persona" name="persona" value="" class="form-control" required minlength="3">
+              <small>Nombre del Cliente</small>
+            </div>
+            <div class="form-group">
+              <input type="date" id="fecha" name="fecha" value="" class="form-control" required minlength="3">
+              <small>Seleccione la fecha de factura</small>
+            </div>
+
+            <div class="form-group">
+              <select class="form-control" name="clasificacion" id='clasificacion'>
+              </select>
+              <small>Seleccione el tipo de Gasto</small>
+            </div>
+            <div class="form-group" style="visibility:hidden;" id='divOtros'>
+              <input type="text" id="otros" name="otros" placeholder="Otros..." class="form-control" required >
+              <small for="nombre">Indique otros</small>
+            </div>
+            <div class="form-group">
+              <input type="text" id="cantidad" name="cantidad" placeholder="cantidad" class="form-control" required digits >
+              <small for="nombre">Indique la cantidad</small>
+            </div>
+            <div class="form-group">
+              <input type="text" id="total" name="total" placeholder="total" class="form-control" required digits >
+              <small for="nombre">Total de Factura</small>
+            </div>
+            <div class="form-group">
+              <button id="btn" type="submit" class="btn btn-primary btn-block">Registrar</button>
+              <small>Este botón permite registrar o modificar  la factura según sea requerido</small>
+                <script>
+                  $().ready(function() {
+                    $("#btn").click(function() {
+                      var external = $("#external").val();
+                      if (external == "0") {
+                        $('#factura').attr('action', '/guardarFactura');
+                      } else {
+                        $('#factura').attr('action', '/editarFactura');
+                      }
+                    });
+                  });
+
+        function otros(){
+          if ($('#clasificacion').val() == 'otros') {
+            $('#divOtros').attr('style','visibility:visible');
+          }else {
+            $('#divOtros').attr('style','visibility:hidden');
+            $('#otros').val($('#clasificacion').val());
+          }
+        }
+        $('#clasificacion').change(function(){
+          otros();
+        });
+
+                </script>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--  LIST-->
+    <div class="col-md-7">
+      <div style="background-color:green; color:white; font-size: 24px;">
+        <%- locals.flash %>
+      </div>
+      <div class="search" >
+        <form class="" action="/buscar" method="get">
+          <input type="date" name="fechaI" id="fechaI" value="">
+          <input type="date" name="fechaF" id="fechaF" value="">
+          <button type="submit" name="button">Buscar</button>
+        </form>
+        <div id="busqueda">
+        </div>
+      </div>
+      <script>
+
+      </script>
+      <table class="table table-bordered table-hover" id="tabla">
+        <thead>
+          <tr>
+            <th>Nro</th>
+            <th>Fecha</th>
+            <th>Gastos</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Editar</th>
+          </tr>
+        </thead>
+          <tbody>
+
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>

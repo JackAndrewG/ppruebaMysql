@@ -25,9 +25,6 @@ module.exports = function (sequelize, Sequelize) {
         telefono: {
             type: Sequelize.STRING(15)
         },
-        foto: {
-            type: Sequelize.STRING(100)
-        },
         estado: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
@@ -41,7 +38,7 @@ module.exports = function (sequelize, Sequelize) {
 
 
     Persona.associate = function (models) {
-        models.persona.hasMany(models.compra, {
+        models.persona.hasMany(models.factura, {
             foreignKey: 'id_persona'
         });
     };

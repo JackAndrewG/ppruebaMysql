@@ -1,7 +1,7 @@
 module.exports = function (sequelize, Sequelize) {
     var persona = require('../models/persona');
     var Persona = new persona(sequelize, Sequelize);
-    var Compra = sequelize.define('compra', {
+    var Factura = sequelize.define('factura', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -10,10 +10,13 @@ module.exports = function (sequelize, Sequelize) {
         external_id: {
             type: Sequelize.UUID
         },
-        pagoTarjeta: {
-            type: Sequelize.STRING(10)
+        clasificacion: {
+            type: Sequelize.STRING(100)
         },
-        total: {
+        cantidad: {
+            type: Sequelize.STRING(100)
+        },
+        totalFactura: {
             type: Sequelize.DOUBLE(10,2)
         },
         estado: {
@@ -25,13 +28,13 @@ module.exports = function (sequelize, Sequelize) {
         createdAt: 'fecha_registro',
         updateAt: 'fecha_modificacion'
     });
-    
 
-    Compra.belongsTo(Persona, {
+
+    Factura.belongsTo(Persona, {
         foreignKey: 'id_persona',
         constraints: false
     });
 
 
-    return Compra;
+    return Factura;
 };
