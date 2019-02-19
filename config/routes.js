@@ -9,7 +9,7 @@ var servicios=require('../controladores/controladorservicios');
 var controladorservicios=new servicios();
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('plantilla', { titulo: 'Ropa', fragmento: 'fragmentos/frmInicio'});
+    res.render('facturas');
 });
 
 router.get('/registro', function(req, res, next) {

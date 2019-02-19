@@ -10,6 +10,9 @@ module.exports = function (sequelize, Sequelize) {
         external_id: {
             type: Sequelize.UUID
         },
+        nombre: {
+            type: Sequelize.STRING(100)
+        },
         clasificacion: {
             type: Sequelize.STRING(100)
         },
