@@ -12,12 +12,9 @@
       <div style="background-color:green; color:white; font-size: 24px;">
         <%- locals.flash %>
       </div>
-      <%- include('./frmFoto')%>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>SUBIR</th>
-            <th>FOTO</th>
             <th>CEDULA</th>
             <th>NOMBRE</th>
             <th>APELLIDO</th>
@@ -28,15 +25,6 @@
         <tbody>
          <% listado.forEach(function(persona, i){%>
           <tr>
-            <td>
-              <a id='<%= i %>' class="btn btn-warning"  data-toggle="modal" data-target="#modal_e">Cambiar Foto</a>
-            </td>
-            <script>
-                $("#<%= i %>").click(function() {
-                    $("#external").val("<%= persona.external_id %>");
-                });
-            </script>
-            <td><img class="rounded" src="\imagenes\<%= persona.foto%>" width="100"/></td>
             <td><%= persona.cedula%></td>
             <td><%= persona.nombre%></td>
             <td><%= persona.apellido%></td>

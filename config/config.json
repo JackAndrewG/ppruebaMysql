@@ -2,14 +2,14 @@
     "development":{
         "username": "JackAndrew",
         "password": "jack",
-        "database": "pruebaBD",
+        "database": "facturas",
         "host": "localhost",
         "dialect": "mysql"
     },
     "staging":{
         "username": "JackAndrew",
         "password": "jack",
-        "database": "pruebaBD",
+        "database": "facturas",
         "host": "localhost",
         "dialect": "mysql"
     }
