@@ -1,0 +1,97 @@
+<div class="form-group">
+  <select class="form-control" name="parte">
+    <option value="" disabled selected>Partes</option>
+    <%# <% listaPartes.forEach(function(parte, i){%>
+    <option value="<%= parte.id %>">
+      <%= parte.nombre %>
+    </option>
+    <%}); %> %>
+  </select>
+  <small>Seleccione la Parte que venderá</small>
+</div>
+
+
+
+<tbody>
+  <%# <% listado.forEach(function(venta, i){%>
+  <tr>
+    <td>
+      <button id="<%= i %>" href='#' type="button" class="btn btn-error">
+        Seleccionar
+      </button>
+      <script>
+        $('#<%=i%>').click(function() {
+          $('#divEliminar').attr('style', 'visibility:visible');
+          $('#external').val('<%= venta[i].external_id %>');
+          $('#cliente').val('<%= venta[i].cliente %>');
+          $('#fecha').val('<%=venta[i].fecha%>');
+          $('#precio').val('<%= venta[i].precio %>');
+          $('#marca').val('<%= venta[i].marca %>');
+          $('#color').val('<%= venta[i].color %>');
+          $('#parte').val('<%= venta[i].parte %>');
+          $('#btn').html('Editar');
+        });
+      </script>
+    </td>
+
+    <td><%= i %></td>
+    <td><%= venta[i].fecha%></td>
+    <td><%= venta[i].cliente%></td>
+    <td><%= venta[i].marca%></td>
+    <td><%= venta[i].color%></td>
+    <td><%= venta[i].datoParte%></td>
+    <td><%= venta[i].precio%></td>
+  </tr>
+  <%}); %> %>
+</tbody>
+
+
+
+
+
+
+
+
+
+
+
+<header>
+    <h2><%= titulo %></h2>
+</header>
+<div class="box">
+    <div class="row" style="margin-bottom: 55px;">
+        <a href="/josselyn/administrar/vino/registro" class="button">NUEVO</a>
+    </div>
+    <div class="row">
+        <%- locals.flash %>
+        <%- include('./frmFoto')%>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nro</th><th>Foto</th><th>Nombre</th><th>Pais</th><th>Marca</th><th>Fecha</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% lista.forEach(function(vino, i) { %>
+                <tr>
+                    <td><%= (i+1) %></td>
+                    <td><img class="rounded" src="\imagenes\<%= vino.foto %>" width="100"/></td>
+                    <td><%= vino.nombre %></td>
+                    <td><%= vino.pais %></td>
+                    <td><%= vino.marca.nombre %></td>
+                    <td><%= vino.fecha_creacion %></td>
+                    <td>
+                        <a href="/josselyn/administrar/vino/modificar/<%= vino.external_id %>" class="btn btn-warning" >Editar</a>
+                        <a id='<%= i %>' class="btn btn-warning"  data-toggle="modal" data-target="#modal_e">Cambiar Foto</a>
+                        <script>
+                            $("#<%= i %>").click(function() {
+                                $("#external").val("<%= vino.external_id %>");
+                            });
+                        </script>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

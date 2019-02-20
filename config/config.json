@@ -1,0 +1,16 @@
+{
+    "development":{
+        "username": "JackAndrew",
+        "password": "jack",
+        "database": "pruebaBD",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "staging":{
+        "username": "JackAndrew",
+        "password": "jack",
+        "database": "pruebaBD",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}
