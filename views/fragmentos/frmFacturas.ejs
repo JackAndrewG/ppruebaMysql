@@ -43,7 +43,7 @@ function cargarClasificacion() {
                         html += '<td>'+item.totalFactura+'</td>';
                         html += '<td><button  type="button" id="editar'+i+'" class="btn btn-primary">Editar</button></td>';
                         html += '</tr>';
-                        html += "<script>$('#editar"+i+"').click(function () {$('#external').val("+item.external_id+");$('#clasificacion').val("+item.clasificacion+");$('#cantidad').val("+item.cantidad+");$('#total').val("+item.totalFactura+");});</scrip"+"t>";
+                        html += "<script>$('#editar"+i+"').click(function () {$('#external').val("+item.external_id+");$('#clasificacion').val("+item.clasificacion+");$('#cantidad').val("+item.cantidad+");$('#total').val("+item.totalFactura+");});<"+"/script>";
 
                     });
                     $("#tabla tbody").html(html);
