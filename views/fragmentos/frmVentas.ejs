@@ -1,3 +1,104 @@
+<script>
+function cargarMarcas() {
+    var url = "http://localhost:3000/ventas/recursos/marcas";
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+            console.log(data.marcas);
+            var html = "<option value=''>Seleccione una marca</option>";
+            $.each(data.marcas, function (i, item) {
+                html += '<option value = "' + item + '">' + item + '</option>';
+            });
+            $("#marca").html(html);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+}
+function cargarColores() {
+    $("#marca").change(function () {
+        $("#colores").html("");
+        var marca = $("#marca").val();
+        var url = "http://localhost:3000/ventas/recursos/colores";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: 'marcas=' + marca,
+            dataType: 'JSON',
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+                var html = "";
+                $.each(data, function (i, item) {
+                    html += '<option value = "' + item + '">' + item + '</option>';
+                });
+                $("#colores").html(html);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+    });
+}
+
+
+
+    $().ready(function () {
+        cargarTabla();
+        cargarMarcas();
+        cargarColores();
+    });
+
+    function cargarTabla() {
+            var url = "http://localhost:3000/ventas/recursos/listarTodos";       ///test/sw/listaProdLot
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        html += '<tr>';
+                        html += '<td>'+(i+1)+'</td>';
+                        html += '<td>'+item.pagoTarjeta+'</td>';
+                        html += '<td>'+item.total+'</td>';
+                        html += '<td>'+item.estado+'</td>';
+                        html += '<td><button onclick="return verTotales('+item.id+')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Ver cantidad de compras</button></td>';
+                        html += '</tr>';
+                    });
+                    $("#tabla tbody").html(html);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+    }
+    function verTotales(id) {
+        var url = "http://localhost:3000/recursos/totales/"+id;       ///test/sw/listaProdLot
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    if(data.cantidad != null) {
+                        $("#cantP").html(data.cantidad);
+                    } else {
+                        $("#cantP").html("0");
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                }
+            });
+    }
+
+</script>
 
 <meta charset="utf-8">
 <title>
@@ -25,23 +126,11 @@
 
             <div class="form-group">
               <select class="form-control" name="marca" id='marca'>
-                <option value=""  disabled selected>Marcas</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Nissan">Nissan</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Kia">Kia</option>
-                <option value="Mercedes Benz">Mercedes Benz</option>
               </select>
               <small>Seleccione la Marca del Vehiculo</small>
             </div>
             <div class="form-group">
-              <select class="form-control" name="color">
-                <option value=""  disabled selected>Color de Auto</option>
-                <option value="Rojo">Rojo</option>
-                <option value="Verde">Verde</option>
-                <option value="Aarillo">Aarillo</option>
-                <option value="Gris">Gris</option>
-                <option value="Blanco">Blanco</option>
+              <select class="form-control" name="color" id="colores">
               </select>
               <small>Seleccione el color del vehiculo</small>
             </div>
@@ -96,20 +185,19 @@
       <div style="background-color:green; color:white; font-size: 24px;">
         <%- locals.flash %>
       </div>
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" id="tabla">
         <thead>
           <tr>
-            <th>Editar/Eliminar</th>
             <th>Nro</th>
-            <th>Fecha Venta</th>
-            <th>Cliente</th>
-            <th>Auto</th>
-            <th>Color</th>
-            <th>Parte</th>
-            <th>Precio</th>
+            <th>Tarjeta</th>
+            <th>Pago</th>
+            <th>Estado</th>
+            <th>Cantidad</th>
           </tr>
         </thead>
+          <tbody>
 
+          </tbody>
       </table>
     </div>
   </div>

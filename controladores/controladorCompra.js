@@ -1,6 +1,5 @@
 'use strict';
 var models = require('../Models');
-var Venta = models.venta;
 var Compra = models.compra;
 const uuidv4 = require('uuid/v4');
 
@@ -19,43 +18,26 @@ class controladorVenta {
                 res.redirect('/destinos');
             });
   }
-  guardar(req, res) { new Venta({
-      id: new mongoose.Types.ObjectId(),
+  guardar(req, res) {
+      Compra.create({
       external_id: uuidv4(),
-      cliente: req.body.cliente,
-      marca: req.body.marca,
-      color: req.body.color,
-      precio: req.body.precio,
-      fecha: req.body.fecha,
-      parte: req.body.parte
-    }).save(function(err, newVenta) {
-      if (err) {
-        console.log('ocurrio un error al guardar la marca');
-        //req.flash('info', 'Ocurrio un error al guardar la marca', false);
-      } else if (newVenta) {
-        console.log('se guardo con exito la marca');
+      pagoTarjeta: req.body.tarjeta,
+      total: req.body.total
+    }).then(function (compra, created) {
+      if (compra) {
+        console.log('se guardo con exito la compra');
         //req.flash('info', 'Marca Guardada Exitosamente', false);
       }
       res.redirect('/Ventas');
     });
   }
-  editar(req, res) { Venta.update({
-        'external_id': req.body.external
-      }, {
-        $set: {
-          cliente: req.body.cliente,
-          marca: req.body.marca,
-          color: req.body.color,
-          precio: req.body.precio,
-          fecha: req.body.fecha,
-          parte: req.body.parte
-        }
-      },
-      (err, venta) => {
-        if (err) {
+  editar(req, res) {
+    Compra.update({
+    pagoTarjeta: req.body.tarjeta,
+    total: req.body.total}, {where: {external_id: external}}).then(function (updatedCompra, created) {
+        if (updatedCompra) {
           //req.flash('info', 'No se pudo modificar', false);
-        } else if (venta) {
-          //req.flash('info', 'Se modifico con exito', false);
+          console.log('error al update');
         }
         res.redirect('/ventas');
       });

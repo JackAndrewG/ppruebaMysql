@@ -29,4 +29,15 @@ router.post('/editarVenta', controladorCompra.editar);
 router.get('/personas', controladorPersona.listar);
 //guarda una nueva foto
 router.post('/persona/foto', controladorFoto.guardarFoto);
+
+
+
+
+//RECURSOS WEB
+router.get('/ventas/recursos/marcas', controladorFoto.obtenerMarcas);
+router.get('/ventas/recursos/colores', controladorFoto.obtenerColores);
+router.get('/ventas/recursos/listarTodos', controladorFoto.obtenerListaTodos);
+router.get('/ventas/recursos/totales/:codigo', controladorFoto.obtenerCantPersona);
+
+
 module.exports = router;
