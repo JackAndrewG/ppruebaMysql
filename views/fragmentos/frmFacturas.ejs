@@ -47,6 +47,7 @@ function cargarClasificacion() {
                         html += '<script>'+
                         '$("#editar'+i+'").click(function () {'+
                           '$("#external").val("'+item.external_id+'");'+
+                          '$("#persona").val("'+item.nombre+'");'+
                           '$("#clasificacion").val("'+item.clasificacion+'");'+
                           '$("#total").val("'+item.totalFactura+'")'+
                         '});'
