@@ -55,8 +55,8 @@ class controladorFactura {
   editar(req, res) {
     Factura.update({
       clasificacion: req.body.otros,
-      cantidad: req.body.cantidad,
-      totalFactura: req.body.total}, {where: {external_id: external}}).then(function (updatedFactura, created) {
+      nombre: req.body.persona,
+      totalFactura: req.body.total}, {where: {external_id: req.body.external}}).then(function (updatedFactura, created) {
         if (updatedFactura) {
           //req.flash('info', 'No se pudo modificar', false);
           console.log('error al update');

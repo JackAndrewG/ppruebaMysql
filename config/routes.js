@@ -16,7 +16,7 @@ router.get('/facturas', controladorfactura.listar);
 //guarda una nueva venta
 router.post('/guardarFactura', controladorfactura.guardar);
 //edita una venta existente
-router.post('/editarVenta', controladorfactura.editar);
+router.post('/editarFactura', controladorfactura.editar);
 
 
 //lista todas las personas
