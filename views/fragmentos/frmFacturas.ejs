@@ -38,7 +38,7 @@ function cargarClasificacion() {
                     $.each(data, function (i, item) {
                         html += '<tr>';
                         html += '<td>'+(i+1)+'</td>';
-                        html += '<td>'+item.fecha_registro+'</td>';
+                        html += '<td>'+item.fecha+'</td>';
                         html += '<td>'+item.nombre+'</td>';
                         html += '<td>'+item.clasificacion+'</td>';
                         html += '<td>'+item.totalFactura+'</td>';
@@ -48,6 +48,7 @@ function cargarClasificacion() {
                         '$("#editar'+i+'").click(function () {'+
                           '$("#external").val("'+item.external_id+'");'+
                           '$("#persona").val("'+item.nombre+'");'+
+                          '$("#fecha").val("'+item.fecha+'");'+
                           '$("#clasificacion").val("'+item.clasificacion+'");'+
                           '$("#total").val("'+item.totalFactura+'")'+
                         '});'

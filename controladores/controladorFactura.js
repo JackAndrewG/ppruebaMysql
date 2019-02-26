@@ -43,7 +43,7 @@ class controladorFactura {
       nombre: req.body.persona,
       clasificacion: req.body.otros,
       totalFactura: req.body.total,
-      fecha_registro: req.body.fecha
+      fecha: req.body.fecha
     }).then(function (factura, created) {
       if (factura) {
         console.log('se guardo con exito la Factura');
@@ -56,6 +56,7 @@ class controladorFactura {
     Factura.update({
       clasificacion: req.body.otros,
       nombre: req.body.persona,
+      fecha: req.body.fecha,
       totalFactura: req.body.total}, {where: {external_id: req.body.external}}).then(function (updatedFactura, created) {
         if (updatedFactura) {
           //req.flash('info', 'No se pudo modificar', false);

@@ -20,6 +20,10 @@ module.exports = function (sequelize, Sequelize) {
         estado: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
+        },
+        fecha: {
+            type: Sequelize.DATEONLY,
+
         }
 
     }, {freezeTableName: true,
