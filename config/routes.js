@@ -5,7 +5,7 @@ var controladorfactura=new factura();
 
 var servicios=require('../controladores/controladorservicios');
 var controladorservicios=new servicios();
-/* GET home page. */
+/* GET home pages. */
 router.get('/', function(req, res, next) {
     res.render('plantilla', { titulo: 'Ropa', fragmento: 'fragmentos/frmInicio'});
 });
@@ -22,7 +22,7 @@ router.post('/editarFactura', controladorfactura.editar);
 //lista todas las personas
 
 
-//router.get('/buscar', controladorfactura.listar);
+router.get('/facturas/buscar', controladorfactura.buscar);
 
 //RECURSOS WEB
 router.get('/facturas/recursos/clasificacion', controladorservicios.obtenerClasificacion);

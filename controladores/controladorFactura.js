@@ -19,24 +19,7 @@ class controladorFactura {
             });
   }
 
-  // buscar(req, res) {
-  //   Factura.findAll({where:
-  //     {
-  //      gte:sequelize.fn('date_format', fecha_registro, '%Y-%m-%dT%H:%i:%s'),
-  //      lte:sequelize.fn('date_format', fecha_registro, '%Y-%m-%dT%H:%i:%s'
-  //    }}).then(function (facturas) {
-  //     res.render('plantilla', {
-  //       titulo: 'FACTURACION',
-  //       fragmento: 'fragmentos/frmFacturas',
-  //       //listado: listaV,
-  //       //listaPartes: partes,
-  //     });
-  //   }).catch(function (err) {
-  //               console.log("Error:", err);
-  //               //req.flash('error', 'Hubo un error');
-  //               res.redirect('/destinos');
-  //           });
-  // }
+
   guardar(req, res) {
       Factura.create({
       external_id: uuidv4(),
