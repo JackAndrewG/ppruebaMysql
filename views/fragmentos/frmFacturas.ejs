@@ -24,9 +24,13 @@ function cargarClasificacion() {
         cargarTabla();
         cargarClasificacion();
 
+
     });
 
     function cargarTabla() {
+            var suma = 0;
+            var sumagastos = 0;
+
             var url = "http://localhost:3000/facturas/recursos/listarTodos";       ///test/sw/listaProdLot
             $.ajax({
                 url: url,
@@ -36,6 +40,10 @@ function cargarClasificacion() {
                     console.log(data);
                     var html = "";
                     $.each(data, function (i, item) {
+                        if(item.clasificacion=='vestimenta' || item.clasificacion=='comida' || item.clasificacion=='educacion' || item.clasificacion=='salud'){
+                          sumagastos += item.totalFactura;
+                        };
+                        suma += item.totalFactura;
                         html += '<tr>';
                         html += '<td>'+(i+1)+'</td>';
                         html += '<td>'+item.fecha+'</td>';
@@ -53,7 +61,11 @@ function cargarClasificacion() {
                           '$("#total").val("'+item.totalFactura+'")'+
                         '});'
                         html += '</scrip'+'t>';
+
+
                     });
+                    console.log(suma);
+                    console.log(sumagastos);
                     $("#tabla tbody").html(html);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -104,8 +116,8 @@ function cargarClasificacion() {
                 dataType: 'JSON',
                 success: function (data, textStatus, jqXHR) {
                     console.log(data);
-                    if(data.cantidad != null) {
-                        $("#cantP").html(data.cantidad);
+                    if(data.total != null) {
+                        $("#cantP").html(data.total);
                     } else {
                         $("#cantP").html("0");
                     }
@@ -123,6 +135,30 @@ function cargarClasificacion() {
 <title>
   <%= titulo %>
 </title>
+
+<!--<MODAL> -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informacion de lotes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <span>La cantidad de productos es: <b><span id="cantP">0</span></b></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <!--<script src="javascripts/paises.js"></script> -->
   <div class="gallery"><h1>FACTURAS</h1></div>
 <div class="container">

@@ -22,13 +22,11 @@ router.post('/editarFactura', controladorfactura.editar);
 //lista todas las personas
 
 
-router.get('/buscar', controladorfactura.listar);
+//router.get('/buscar', controladorfactura.listar);
 
 //RECURSOS WEB
 router.get('/facturas/recursos/clasificacion', controladorservicios.obtenerClasificacion);
 
 router.get('/facturas/recursos/listarTodos', controladorservicios.obtenerListaTodos);
-router.get('/ventas/recursos/totales/:codigo', controladorservicios.obtenerCantPersona);
-
-
+//router.get('/facturas/recursos/totales/:id', controladorservicios.obtenerSuma);
 module.exports = router;

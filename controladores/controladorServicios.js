@@ -19,21 +19,14 @@ class controladorTemp {
         });
     }
 
-    obtenerCantCompras(req, res) {
-        Compra.count({col: "id_persona"}, {where: {id_persona: 5}}, {include:{model: Persona}}).then(function (cont){
-            res.status(200).json({cantidad: cont});
-        });
-    }
 
-    obtenerCantPersona(req, res) {
-        var idProd = req.params.codigo;
-        Compra.sum("total", {where: {id_persona: idPerson}}, {include:{model: Persona}}).then(function (cont) {
-            res.status(200).json({cantidad: cont});
-        });
-    }
-
-
-
+   //obtenerSuma(req, res) {
+    //    var idProd = req.params.id;
+      //  Factura.sum('totalFactura', {where: {id: idProd}}, {include:{model: factura}}).then(function (cont) {
+//
+    //        res.status(200).json(cont);
+  //      });
+    //}
 
 }
 
