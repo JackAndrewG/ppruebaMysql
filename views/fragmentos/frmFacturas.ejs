@@ -67,33 +67,14 @@ function cargarClasificacion() {
                     console.log(suma);
                     console.log(sumagastos);
                     $("#tabla tbody").html(html);
+                    $("#suma").val(suma);
+                   $("#totalgastos").val(sumagastos);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseText);
                 }
             });
             // onclick="return verTotales('+item.id+')"
-    }
-
-    function verTotales(id) {
-        var url = "http://localhost:3000/recursos/totales/"+id;       ///test/sw/listaProdLot
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (data, textStatus, jqXHR) {
-                    console.log(data);
-                    if(data.total != null) {
-                        $("#cantP").html(data.total);
-                    } else {
-                        $("#cantP").html("0");
-                    }
-
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseText);
-                }
-            });
     }
 
 </script>
@@ -201,7 +182,17 @@ function cargarClasificacion() {
           <input type="date" name="fechaF" id="fechaF">
           <button type="button" onclick="buscar()" name="button">Buscar</button>
       </div>
+      <div class="form-control" >
+          <input type="text" id="suma"><br>
+          <small>Total</small><br>
+          <input type="text" id="totalgastos"><br>
+          <small>Total gastos personales</small>
+
+      </div>
       <script>
+
+
+
         function buscar() {
                 var url = "http://localhost:3000/facturas/recursos/listarTodos";
                 var fechaInicio = document.getElementById("fechaI").value;
@@ -260,6 +251,9 @@ function cargarClasificacion() {
           <tbody>
 
           </tbody>
+          <div id="editar">
+
+          </div>
       </table>
     </div>
   </div>
