@@ -22,7 +22,7 @@ router.post('/editarFactura', controladorfactura.editar);
 //lista todas las personas
 
 
-router.get('/buscar', controladorfactura.listar);
+router.get('/facturas/buscar', controladorfactura.buscar);
 
 //RECURSOS WEB
 router.get('/facturas/recursos/clasificacion', controladorservicios.obtenerClasificacion);

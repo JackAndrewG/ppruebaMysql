@@ -63,39 +63,6 @@ function cargarClasificacion() {
             // onclick="return verTotales('+item.id+')"
     }
 
-    function buscar() {
-            var fechaI= req.query.fechaI;
-            var fechaF= req.query.fechaF;
-            var url = "http://localhost:3000/facturas/recursos/listarTodos";       ///test/sw/listaProdLot
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (data, textStatus, jqXHR) {
-                    console.log(data);
-                    var html = "";
-                    $.each(data, function (i, item) {
-                        if (item.fecha_registro >= fechaI && item.fecha_registro <= fechaF) {
-                        html += '<tr>';
-                        html += '<td>'+(i+1)+'</td>';
-                        html += '<td>'+item.fecha_registro+'</td>';
-                        html += '<td>'+item.clasificacion+'</td>';
-                        html += '<td>'+item.totalFactura+'</td>';
-                        html += '<td><button  type="button" id="editar'+i+'" class="btn btn-primary">Editar</button></td>';
-                        html += '</tr>';
-                        html += "<script>$('#editar'"+i+").click(function () {$('#external').val("+item.external_id+");$('#clasificacion').val("+item.clasificacion+");$('#cantidad').val("+item.cantidad+");$('#total').val("+item.totalFactura+");});</scrip"+"t>";
-                        }
-                    });
-                    $("#tabla tbody").html(html);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseText);
-                }
-            });
-            // onclick="return verTotales('+item.id+')"
-    }
-
-
     function verTotales(id) {
         var url = "http://localhost:3000/recursos/totales/"+id;       ///test/sw/listaProdLot
             $.ajax({
@@ -194,16 +161,54 @@ function cargarClasificacion() {
         <%- locals.flash %>
       </div>
       <div class="search" >
-        <form class="" action="/buscar" method="get">
-          <input type="date" name="fechaI" id="fechaI" value="">
-          <input type="date" name="fechaF" id="fechaF" value="">
-          <button type="submit" name="button">Buscar</button>
-        </form>
-        <div id="busqueda">
-        </div>
+          <input type="date" name="fechaI" id="fechaI">
+          <input type="date" name="fechaF" id="fechaF">
+          <button type="button" onclick="buscar()" name="button">Buscar</button>
       </div>
       <script>
-
+        function buscar() {
+                var url = "http://localhost:3000/facturas/recursos/listarTodos";
+                var fechaInicio = document.getElementById("fechaI").value;
+                var fechaFin = document.getElementById("fechaF").value;
+                //console.log(fechaInicio);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        var html = "";
+                        $.each(data, function (i, item) {
+                          console.log(fechaInicio);
+                          console.log(item.fecha);
+                          if (item.fecha >= fechaInicio && item.fecha <= fechaFin) {
+                            html += '<tr>';
+                            html += '<td>'+(i+1)+'</td>';
+                            html += '<td>'+item.fecha+'</td>';
+                            html += '<td>'+item.nombre+'</td>';
+                            html += '<td>'+item.clasificacion+'</td>';
+                            html += '<td>'+item.totalFactura+'</td>';
+                            html += '<td><button  type="button" id="editar'+i+'" class="btn btn-primary">Editar</button></td>';
+                            html += '</tr>';
+                            html += '<script>'+
+                            '$("#editar'+i+'").click(function () {'+
+                              '$("#external").val("'+item.external_id+'");'+
+                              '$("#persona").val("'+item.nombre+'");'+
+                              '$("#fecha").val("'+item.fecha+'");'+
+                              '$("#clasificacion").val("'+item.clasificacion+'");'+
+                              '$("#total").val("'+item.totalFactura+'")'+
+                            '});'
+                            html += '</scrip'+'t>';
+                          }
+                        });
+                        $("#tabla tbody").html(html);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR.responseText);
+                    }
+                });
+                // onclick="return verTotales('+item.id+')"
+        }
       </script>
       <table class="table table-bordered table-hover" id="tabla">
         <thead>
