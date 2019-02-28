@@ -1,3 +1,17 @@
+<script type="text/javascript" src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script type="text/javascript" src="/js/html2canvas.js"></script>
+<script type="text/javascript">
+  function genPDF() {
+    $('#bDescargar').attr('style','visibility: hidden');
+    html2canvas(document.getElementById('pdf')).then(function(canvas) {
+      var img = canvas.toDataURL('image/png');
+      var doc = new jsPDF();
+      doc.addImage(img, 'JPEG', 20, 10);
+      doc.save('test.pdf');
+    });
+  }
+</script>
+
 <script>
 function cargarClasificacion() {
     var url = "http://localhost:3000/facturas/recursos/clasificacion";
@@ -84,26 +98,6 @@ function cargarClasificacion() {
   <%= titulo %>
 </title>
 
-<!--<MODAL> -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Informacion de lotes</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <span>La cantidad de productos es: <b><span id="cantP">0</span></b></span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -182,17 +176,18 @@ function cargarClasificacion() {
           <input type="date" name="fechaF" id="fechaF">
           <button type="button" onclick="buscar()" name="button">Buscar</button>
       </div>
+      <div id="pdf">
       <div class="form-control" >
           <input type="text" id="suma"><br>
           <small>Total</small><br>
           <input type="text" id="totalgastos"><br>
-          <small>Total gastos personales</small>
-
+          <small>Total gastos personales</small><br>
+          <a href="javascript:genPDF()" class="btn btn-danger" onclick="ocultarEditar()">Generar Reporte</a>
       </div>
       <script>
 
 
-
+        var totalEditar=0;
         function buscar() {
                 var url = "http://localhost:3000/facturas/recursos/listarTodos";
                 var fechaInicio = document.getElementById("fechaI").value;
@@ -206,6 +201,7 @@ function cargarClasificacion() {
                         console.log(data);
                         var html = "";
                         $.each(data, function (i, item) {
+                          totalEditar+=i;
                           console.log(fechaInicio);
                           console.log(item.fecha);
                           if (item.fecha >= fechaInicio && item.fecha <= fechaFin) {
@@ -236,6 +232,12 @@ function cargarClasificacion() {
                 });
                 // onclick="return verTotales('+item.id+')"
         }
+        function ocultarEditar(){
+          console.log(totalEditar);
+          for (var i = 0; i < totalEditar; i++) {
+            $('#editar'+i).attr('style','visibility: hidden');
+          }
+        }
       </script>
       <table class="table table-bordered table-hover" id="tabla">
         <thead>
@@ -251,10 +253,8 @@ function cargarClasificacion() {
           <tbody>
 
           </tbody>
-          <div id="editar">
-
-          </div>
       </table>
+      </div>
     </div>
   </div>
 </div>
